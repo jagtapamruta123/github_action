@@ -23,8 +23,10 @@ jobs:
         with:
           flutter-version: 3.24.4  # Update to your Flutter version
 
-      - name: Install dependencies
+      - name: Clean dependencies
         run: flutter clean
+
+      - name: Install dependencies
         run: flutter pub get
 
       # - name: Run tests
