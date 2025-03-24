@@ -42,9 +42,12 @@ jobs:
           ln -s ../Runner.app
           cd ..
           zip -r app.ipa Payload
-      - name: Push to Releases
-        uses: ncipollo/release-action@v1
+
+      - name: Upload APK & IPA
+        uses: actions/upload-artifact@v3
         with:
-          artifacts: "build/app/outputs/apk/release/*,build/ios/iphoneos/app.ipa"
-          tag: v1.0.${{ github.run_number }}
-          token: ${{ secrets.TOKEN }}
+    name: flutter-builds
+    path: |
+      build/app/outputs/apk/release/*.apk
+      build/ios/iphoneos/app.ipa 
+    
