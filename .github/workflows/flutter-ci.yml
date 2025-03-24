@@ -46,7 +46,7 @@ jobs:
       - name: Upload APK & IPA
         uses: actions/upload-artifact@v3
         with:
-      - name: flutter-builds
+        name: flutter-builds
         path: |
           build/app/outputs/apk/release/*.apk
           build/ios/iphoneos/app.ipa 
