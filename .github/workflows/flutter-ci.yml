@@ -1,3 +1,56 @@
+# name: Flutter CI
+
+# on:
+#   push:
+#     branches:
+#       - main
+#       - github-actions
+#   pull_request:
+#     branches:
+#       - main
+     
+
+# jobs:
+#   build:
+#     runs-on: macos-latest
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v3
+
+#       - name: Set up Flutter
+#         uses: subosito/flutter-action@v2
+#         with:
+#           flutter-version: 3.24.4  # Update to your Flutter version
+
+#       - name: Clean dependencies
+#         run: flutter clean
+
+#       - name: Install dependencies
+#         run: flutter pub get
+
+#       # - name: Run tests
+#       #   run: flutter test
+
+#       - name: Build APK
+#         run: flutter build apk --release
+#       - run: |
+#           flutter build ios --no-codesign
+#           cd build/ios/iphoneos
+#           mkdir Payload
+#           cd Payload
+#           ln -s ../Runner.app
+#           cd ..
+#           zip -r app.ipa Payload
+
+#       - name: Upload APK & IPA
+#         uses: actions/upload-artifact@v3
+#         with:
+#         name: flutter-builds
+#         path: |
+#           build/app/outputs/apk/release/*.apk
+#           build/ios/iphoneos/app.ipa 
+    
 name: Flutter CI
 
 on:
@@ -9,7 +62,6 @@ on:
     branches:
       - main
      
-
 jobs:
   build:
     runs-on: macos-latest
@@ -34,20 +86,19 @@ jobs:
 
       - name: Build APK
         run: flutter build apk --release
-      - run: |
+
+      - name: Build iOS (Without Code Signing)
+        run: |
           flutter build ios --no-codesign
           cd build/ios/iphoneos
           mkdir Payload
-          cd Payload
-          ln -s ../Runner.app
-          cd ..
+          mv Runner.app Payload/
           zip -r app.ipa Payload
 
       - name: Upload APK & IPA
         uses: actions/upload-artifact@v3
         with:
-        name: flutter-builds
-        path: |
-          build/app/outputs/apk/release/*.apk
-          build/ios/iphoneos/app.ipa 
-    
+          name: flutter-builds
+          path: |
+            build/app/outputs/apk/release/*.apk
+            build/ios/iphoneos/app.ipa
