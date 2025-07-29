@@ -8,7 +8,6 @@
 #   pull_request:
 #     branches:
 #       - main
-     
 
 # jobs:
 #   build:
@@ -49,8 +48,8 @@
 #         name: flutter-builds
 #         path: |
 #           build/app/outputs/apk/release/*.apk
-#           build/ios/iphoneos/app.ipa 
-    
+#           build/ios/iphoneos/app.ipa
+
 name: Flutter CI
 
 on:
@@ -61,7 +60,7 @@ on:
   pull_request:
     branches:
       - main
-     
+
 jobs:
   build:
     runs-on: macos-latest
@@ -73,7 +72,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 3.24.4  # Update to your Flutter version
+          flutter-version: 3.24.4 # Update to your Flutter version
 
       - name: Clean dependencies
         run: flutter clean
@@ -87,18 +86,18 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
-      - name: Build iOS (Without Code Signing)
-        run: |
-          flutter build ios --no-codesign
-          cd build/ios/iphoneos
-          mkdir Payload
-          mv Runner.app Payload/
-          zip -r app.ipa Payload
+      # - name: Build iOS (Without Code Signing)
+      #   run: |
+      #     flutter build ios --no-codesign
+      #     cd build/ios/iphoneos
+      #     mkdir Payload
+      #     mv Runner.app Payload/
+      #     zip -r app.ipa Payload
 
-      - name: Upload APK & IPA
-        uses: actions/upload-artifact@v3
-        with:
-          name: flutter-builds
-          path: |
-            build/app/outputs/apk/release/*.apk
-            build/ios/iphoneos/app.ipa
+      # - name: Upload APK & IPA
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: flutter-builds
+      #     path: |
+      #       build/app/outputs/apk/release/*.apk
+      #       build/ios/iphoneos/app.ipa
